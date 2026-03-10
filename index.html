@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced SQL Query Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Developer Tooling</p>
+        <h1>Advanced SQL Query Generator</h1>
+        <p class="subtitle">Build production-ready SQL visually. Generate readable queries in one click.</p>
+      </div>
+      <div class="status-card">
+        <div class="status">
+          <span class="pulse"></span>
+          <span>Live Preview</span>
+        </div>
+        <p>Dynamic fields adjust to the selected query type.</p>
+      </div>
+    </header>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Query Builder</h2>
+        <div class="actions">
+          <button id="generateBtn" class="btn primary">Generate Query</button>
+          <button id="resetBtn" class="btn ghost">Clear Fields</button>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <label class="field">
+          <span>Query Type</span>
+          <select id="queryType">
+            <option value="select" selected>SELECT</option>
+            <option value="insert">INSERT</option>
+            <option value="update">UPDATE</option>
+            <option value="delete">DELETE</option>
+          </select>
+        </label>
+
+        <div id="selectFields" class="section">
+          <h3>SELECT Builder</h3>
+          <div class="section-grid">
+            <label class="field">
+              <span>Table Name</span>
+              <input id="selectTable" type="text" placeholder="users" />
+            </label>
+            <label class="field">
+              <span>Columns (comma separated)</span>
+              <input id="selectColumns" type="text" placeholder="id, name, email" />
+            </label>
+          </div>
+          <div class="section-grid">
+            <label class="field">
+              <span>WHERE Column</span>
+              <input id="whereColumn" type="text" placeholder="status" />
+            </label>
+            <label class="field">
+              <span>Operator</span>
+              <select id="whereOperator">
+                <option value="=">=</option>
+                <option value="!=">!=</option>
+                <option value=">">&gt;</option>
+                <option value=">=">&gt;=</option>
+                <option value="<">&lt;</option>
+                <option value="<=">&lt;=</option>
+                <option value="LIKE">LIKE</option>
+                <option value="IN">IN</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Value</span>
+              <input id="whereValue" type="text" placeholder="'active'" />
+            </label>
+          </div>
+          <div class="section-grid">
+            <label class="field">
+              <span>GROUP BY</span>
+              <input id="groupBy" type="text" placeholder="role" />
+            </label>
+            <label class="field">
+              <span>HAVING</span>
+              <input id="having" type="text" placeholder="COUNT(id) > 1" />
+            </label>
+          </div>
+          <div class="section-grid">
+            <label class="field">
+              <span>ORDER BY Column</span>
+              <input id="orderBy" type="text" placeholder="created_at" />
+            </label>
+            <label class="field">
+              <span>Direction</span>
+              <select id="orderDirection">
+                <option value="ASC">ASC</option>
+                <option value="DESC">DESC</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>LIMIT</span>
+              <input id="limit" type="number" min="1" placeholder="10" />
+            </label>
+          </div>
+        </div>
+
+        <div id="joinFields" class="section">
+          <h3>JOIN Builder</h3>
+          <div class="section-grid">
+            <label class="field">
+              <span>Join Type</span>
+              <select id="joinType">
+                <option value="INNER JOIN">INNER JOIN</option>
+                <option value="LEFT JOIN">LEFT JOIN</option>
+                <option value="RIGHT JOIN">RIGHT JOIN</option>
+                <option value="FULL JOIN">FULL JOIN</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>First Table</span>
+              <input id="joinTableA" type="text" placeholder="TableA" />
+            </label>
+            <label class="field">
+              <span>Second Table</span>
+              <input id="joinTableB" type="text" placeholder="TableB" />
+            </label>
+            <label class="field full">
+              <span>Join Condition</span>
+              <input id="joinCondition" type="text" placeholder="A.id = B.id" />
+            </label>
+          </div>
+        </div>
+
+        <div id="insertFields" class="section hidden">
+          <h3>INSERT Builder</h3>
+          <div class="section-grid">
+            <label class="field">
+              <span>Table Name</span>
+              <input id="insertTable" type="text" placeholder="users" />
+            </label>
+            <label class="field">
+              <span>Columns</span>
+              <input id="insertColumns" type="text" placeholder="name, email" />
+            </label>
+            <label class="field">
+              <span>Values</span>
+              <input id="insertValues" type="text" placeholder="'Ava', 'ava@mail.com'" />
+            </label>
+          </div>
+        </div>
+
+        <div id="updateFields" class="section hidden">
+          <h3>UPDATE Builder</h3>
+          <div class="section-grid">
+            <label class="field">
+              <span>Table Name</span>
+              <input id="updateTable" type="text" placeholder="users" />
+            </label>
+            <label class="field">
+              <span>Column</span>
+              <input id="updateColumn" type="text" placeholder="status" />
+            </label>
+            <label class="field">
+              <span>New Value</span>
+              <input id="updateValue" type="text" placeholder="'active'" />
+            </label>
+            <label class="field full">
+              <span>WHERE Condition</span>
+              <input id="updateWhere" type="text" placeholder="id = 42" />
+            </label>
+          </div>
+        </div>
+
+        <div id="deleteFields" class="section hidden">
+          <h3>DELETE Builder</h3>
+          <div class="section-grid">
+            <label class="field">
+              <span>Table Name</span>
+              <input id="deleteTable" type="text" placeholder="users" />
+            </label>
+            <label class="field full">
+              <span>WHERE Condition</span>
+              <input id="deleteWhere" type="text" placeholder="created_at < '2024-01-01'" />
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel output">
+      <div class="panel-header">
+        <h2>Generated SQL</h2>
+        <div class="actions">
+          <button id="copyBtn" class="btn ghost">Copy Query</button>
+        </div>
+      </div>
+      <pre id="sqlOutput" class="code">-- Click "Generate Query" to see your SQL here.</pre>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
